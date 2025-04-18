@@ -1,0 +1,53 @@
+{
+    "$schema": "https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2024/04/bundled/resource/manifest.json",
+    "type": "TSToy.Example/gotstoy",
+    "version": "0.1.0",
+    "description": "A DSC Resource written in Go to manage TSToy.",
+    "get": {
+        "executable": "gotstoy",
+        "args": ["get"],
+        "input": "stdin"   
+    },
+    "set": {
+        "executable": "gotstoy",
+        "args": ["set"],
+        "input": "stdin",
+        "preTest": true,
+        "return" : "state"
+    },
+    "schema": {
+        "embedded": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "Golan TSToy Resource",
+            "type": "object",
+            "required": ["scope"],
+            "properties": {
+                "scope": {
+                    "title": "Target configuration scope",
+                    "description": "Defines which TSToy configuration to manage.",
+                    "type": "string",
+                    "enum": ["machine", "user"]
+                },
+                "ensure": {
+                    "title": "Ensure configuration file existence",
+                    "description": "Defines whether the config file should exist or not.",
+                    "type": "string",
+                    "enum": ["present", "absent"],
+                    "default": "present"
+                },
+                "updateAutomatically": {
+                    "title": "Should update automatically",
+                    "description": "Indicates whether TSToy should check for updates when it starts.",
+                    "type": "boolean"
+                },
+                "updateFrequency": {
+                    "title": "Update frequency",
+                    "description": "Indicates how many day TSToy should wait before checking for updates.",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 90
+                }
+            }
+        }
+    }
+}
